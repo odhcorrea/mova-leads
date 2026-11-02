@@ -1,18 +1,25 @@
 # Mova Leads
 
-Funil de leads da Mova: uma landing page com um hero e um botão, que leva a duas telas (nome e WhatsApp) e a uma tela de sucesso. Os leads vão para uma planilha do Google Sheets.
+Funil de leads do Mova, no ar em **https://funil.movaclub.app**.
 
-Feito em HTML, CSS e JavaScript puros, sem build. A única dependência é o [intl-tel-input](https://github.com/jackocnr/intl-tel-input), carregado por CDN, que faz o campo de WhatsApp com seletor de país.
+Uma landing page com os mockups do app e o botão "Eu quero", que leva a duas telas (nome e WhatsApp) e a uma tela de sucesso com confete. Os leads vão para uma planilha do Google Sheets.
+
+Feito em HTML, CSS e JavaScript puros, sem build. Dependências carregadas por CDN:
+
+- [intl-tel-input](https://github.com/jackocnr/intl-tel-input): campo de WhatsApp com seletor de país (lista suspensa no desktop, bottom sheet no celular)
+- [canvas-confetti](https://github.com/catdad/canvas-confetti): confete na tela de sucesso
 
 ## Estrutura
 
 ```
-index.html          Hero + telas do funil
-css/style.css       Estilos (cores no topo do arquivo, em :root)
+index.html          Landing page + telas do funil
+css/style.css       Estilos (cores e fontes no topo do arquivo, em :root)
 js/config.js        URL de envio dos leads
 js/app.js           Navegação, validação e envio
-assets/             Logo, mockup do app e imagem das pessoas escaneadas
+assets/             Logo, mockups do app e avatar do Dhiego
 apps-script/Code.gs Código que recebe os leads e grava na planilha
+CNAME               Domínio do GitHub Pages (funil.movaclub.app)
+.nojekyll           Faz o GitHub Pages servir os arquivos como estão
 ```
 
 ## Rodar localmente
@@ -21,7 +28,21 @@ apps-script/Code.gs Código que recebe os leads e grava na planilha
 python3 -m http.server 8000
 ```
 
-Depois abra http://localhost:8000. Com `endpoint` vazio em `js/config.js`, o funil funciona em modo de teste: nada é enviado e o lead aparece no console do navegador.
+Depois abra http://localhost:8000. Atenção: com a URL preenchida em `js/config.js`, os testes locais gravam na planilha de verdade. Para testar sem enviar, deixe `endpoint` vazio (o lead aparece só no console do navegador) e não faça commit dessa mudança.
+
+## Publicação
+
+O site é publicado pelo **GitHub Pages** a partir da branch **`main`**. O que está na `main` é o que está no ar.
+
+1. Crie uma branch a partir da `main` e faça as alterações nela.
+2. Dê merge na `main` (por PR ou direto) e envie para o GitHub.
+3. Em cerca de 1 minuto o GitHub publica sozinho.
+
+Quem já abriu o funil pode continuar vendo a versão anterior por até 10 minutos, porque o GitHub Pages manda o navegador guardar os arquivos em cache. Para conferir na hora, use uma aba anônima.
+
+**Domínio:** o DNS do `movaclub.app` fica na Hostinger. O subdomínio `funil` é um registro `CNAME` apontando para `odhcorrea.github.io`. A home `movaclub.app` continua na Vercel e não depende deste projeto. O HTTPS é gerado e renovado pelo GitHub.
+
+Se mexer no domínio pelas configurações do GitHub Pages, o GitHub cria commits no arquivo `CNAME` da `main`. Dê `git pull` antes de continuar.
 
 ## Conectar ao Google Sheets (gratuito)
 
@@ -32,7 +53,7 @@ Depois abra http://localhost:8000. Com `endpoint` vazio em `js/config.js`, o fun
    - Tipo: **App da Web**
    - Executar como: **Eu**
    - Quem pode acessar: **Qualquer pessoa**
-5. Clique em **Implantar** e autorize o acesso à sua conta quando o Google pedir (aparece um aviso de "app não verificado", porque o script é seu: clique em **Avançado > Acessar**).
+5. Clique em **Implantar** e autorize o acesso à sua conta quando o Google pedir (aparece um aviso de "app não verificado", porque o script é seu: clique em **Avançado > Acessar**). Se a URL responder "Acesso negado", selecione `doGet` no editor e clique em **Executar** para concluir a autorização.
 6. Copie a **URL do app da Web** (termina em `/exec`) e cole em `js/config.js`:
 
    ```js
@@ -45,15 +66,20 @@ Depois abra http://localhost:8000. Com `endpoint` vazio em `js/config.js`, o fun
 
 Cada lead vira uma linha com data, nome, WhatsApp e um link `wa.me` para abrir a conversa direto.
 
-**Se alterar o `Code.gs` depois:** vá em **Implantar > Gerenciar implantações**, edite a implantação existente e escolha **Nova versão**. Assim a URL continua a mesma.
+**Se alterar o `Code.gs` depois:** cole o código novo no editor, vá em **Implantar > Gerenciar implantações**, edite a implantação existente e escolha **Nova versão**. Assim a URL continua a mesma.
 
 ## Personalizar
 
 - **Textos da landing page e das telas:** `index.html`
-- **Imagens:** substitua os arquivos em `assets/` mantendo o mesmo nome (a posição de cada imagem na composição fica em `.lp__mockup` e `.lp__people`, em `css/style.css`)
+- **Imagens:** substitua os arquivos em `assets/` mantendo o mesmo nome
 - **Cores e fontes:** variáveis no topo de `css/style.css`
+
+## Segurança
+
+- A URL do Apps Script fica visível no código da página, mas ela só sabe **adicionar uma linha** depois de validar nome e WhatsApp. Ninguém consegue ler, editar ou apagar a planilha por ela.
+- Há uma proteção simples contra bots (campo invisível que pessoas não preenchem).
+- Ainda **não** há limite contra envios em massa. Próximos passos possíveis: ignorar WhatsApp repetido, limitar envios por minuto, alerta por e-mail quando o volume passar do normal e, com o domínio no ar, o captcha invisível Cloudflare Turnstile.
 
 ## Observações
 
-- A URL do Apps Script fica visível no código da página, então qualquer pessoa pode enviar dados para ela. Há uma proteção simples contra bots (campo invisível) e o script valida nome e celular antes de gravar.
 - O WhatsApp aceita números de qualquer país. O campo começa no Brasil; a pessoa troca o país na bandeira e a máscara e a validação se ajustam. Na planilha o número fica no formato internacional (ex.: `+55 11 98765-4321`, `+351 912 345 678`).

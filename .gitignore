@@ -1,0 +1,21 @@
+# Dependências
+node_modules/
+
+# Ambiente
+.env
+.env.*
+!.env.example
+
+# Build
+dist/
+build/
+.next/
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
+
+# Claude Code (configurações locais)
+.claude/settings.local.json

@@ -20,8 +20,10 @@
     if (push) history.pushState({ screen: name }, "");
     window.scrollTo(0, 0);
 
+    // Sem foco automático nos campos (abriria o teclado sozinho no celular);
+    // só a tela de sucesso recebe foco no título, para leitores de tela anunciarem
     var screen = document.querySelector('[data-screen="' + name + '"]');
-    var target = screen.querySelector(".field") || screen.querySelector('[tabindex="-1"]');
+    var target = screen.querySelector('.step__title[tabindex="-1"]');
     if (target) target.focus({ preventScroll: true });
   }
 
@@ -59,6 +61,26 @@
       dot.classList.toggle("is-active", i === closest);
     });
   }, { passive: true });
+
+  // Enquanto a pessoa digita (teclado aberto no celular), o botão sai do rodapé fixo
+  // e fica logo abaixo do campo, para não subir com o teclado e cobrir o input.
+  // A volta ao rodapé espera um pouco: se a pessoa tocou no botão, o toque termina
+  // antes de ele mudar de lugar.
+  var typingTimer;
+
+  document.addEventListener("focusin", function (e) {
+    if (!e.target.matches(".step .field")) return;
+    clearTimeout(typingTimer);
+    e.target.closest(".step").classList.add("is-typing");
+  });
+
+  document.addEventListener("focusout", function (e) {
+    if (!e.target.matches(".step .field")) return;
+    var step = e.target.closest(".step");
+    typingTimer = setTimeout(function () {
+      step.classList.remove("is-typing");
+    }, 300);
+  });
 
   function setError(input, message) {
     var el = document.getElementById(input.id + "-erro");
@@ -139,6 +161,19 @@
 
   inputWhatsapp.addEventListener("countrychange", function () {
     setError(inputWhatsapp);
+  });
+
+  // No celular, abrir o bottom sheet de países não deve abrir o teclado: a biblioteca
+  // põe o foco na busca ao abrir, então tiramos de lá e deixamos no próprio sheet.
+  // O teclado só abre se a pessoa tocar na busca.
+  inputWhatsapp.addEventListener("open:countryselector", function () {
+    if (!mobile.matches) return;
+    var sheet = document.querySelector(".iti--fullscreen-popup .iti__country-selector");
+    var search = sheet && sheet.querySelector(".iti__search-input");
+    if (!search || document.activeElement !== search) return;
+    search.blur();
+    sheet.setAttribute("tabindex", "-1");
+    sheet.focus({ preventScroll: true });
   });
 
   var phoneErrors = {

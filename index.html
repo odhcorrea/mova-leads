@@ -68,7 +68,7 @@
           <h2 class="step__title">Qual o seu nome?</h2>
 
           <label for="nome" class="label">Nome</label>
-          <input class="field" id="nome" name="nome" type="text" autocomplete="name" placeholder="Digite seu nome" maxlength="80" aria-describedby="nome-erro">
+          <input class="field" id="nome" name="nome" type="text" autocomplete="name" enterkeyhint="next" placeholder="Digite seu nome" maxlength="80" aria-describedby="nome-erro">
           <p class="step__error" id="nome-erro" role="alert"></p>
         </div>
 
@@ -106,7 +106,7 @@
           </div>
 
           <label for="whatsapp" class="label">WhatsApp</label>
-          <input class="field" id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" aria-describedby="whatsapp-erro">
+          <input class="field" id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" enterkeyhint="send" aria-describedby="whatsapp-erro">
           <!-- Honeypot: invisível para pessoas, bots costumam preencher -->
           <input class="hp" type="text" name="empresa" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p class="step__error" id="whatsapp-erro" role="alert"></p>

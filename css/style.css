@@ -614,6 +614,23 @@ button {
   color: var(--erro);
 }
 
+/* Celular digitando (teclado aberto): botão logo abaixo do campo, em vez de fixo no rodapé */
+@media (max-width: 899px) {
+  .step.is-typing .step__body {
+    padding-bottom: 0;
+  }
+
+  .step.is-typing .cta {
+    position: static;
+    z-index: auto;
+    width: auto;
+    max-width: none;
+    padding: 4px 24px 24px;
+    background: none;
+    transform: none;
+  }
+}
+
 /* Passos no desktop: coluna mais larga, conteúdo centralizado na vertical
    e o botão logo abaixo do campo (no celular ele fica fixo no rodapé) */
 @media (min-width: 900px) {
@@ -781,6 +798,11 @@ button {
   font-size: 18px;
   font-weight: 700;
   color: var(--texto);
+}
+
+/* O sheet recebe o foco ao abrir (para não abrir o teclado na busca); sem contorno */
+.iti--fullscreen-popup .iti__country-selector:focus {
+  outline: none;
 }
 
 .iti--fullscreen-popup .iti__close-button {

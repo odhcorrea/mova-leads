@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#060606">
+  <title>Mova · Treinos feitos para o seu corpo</title>
+  <meta name="description" content="Escaneie seu corpo e receba treinos exclusivos feitos para a sua rotina.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@29.5.5/dist/css/intlTelInput.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <!-- Landing page -->
+    <section class="screen lp" data-screen="hero">
+      <header class="lp__header">
+        <img class="lp__logo" src="assets/logo-mova.svg" alt="Mova" width="135" height="24">
+        <h1 class="lp__title">Escaneie seu corpo <br>e receba treinos exclusivos <br>feitos para a sua rotina.</h1>
+        <!-- No celular fica fixo no rodapé; no desktop aparece aqui, abaixo do título -->
+        <div class="cta lp__cta">
+          <button type="button" class="btn" data-action="start">Eu quero</button>
+          <p class="help help--mobile">
+            Dúvidas ou problemas? Fale comigo
+            <a class="help__ig" href="https://www.instagram.com/odhcorrea/reels/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><defs><linearGradient id="ig-lp"x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".55" stop-color="#d62976"/><stop offset=".8" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><g fill="none" stroke="url(#ig-lp)" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/></g><circle cx="17.4" cy="6.6" r="1.3" fill="url(#ig-lp)"/></svg>
+              @odhcorrea
+            </a>
+          </p>
+        </div>
+      </header>
+
+      <!-- No celular é um carrossel horizontal; no desktop, os três lado a lado -->
+      <div class="lp__phones" id="lp-phones" aria-label="Telas do app Mova">
+        <img class="lp__phone" src="assets/mockup-scanner.png" alt="Tela do scanner do Mova, com fotos de frente, de lado e de costas" width="824" height="1704">
+        <img class="lp__phone" src="assets/mockup-camera.png" alt="Tela da câmera do Mova fotografando o corpo de frente" width="824" height="1704">
+        <img class="lp__phone" src="assets/mockup-treinos.png" alt="Tela de treinos da semana no Mova" width="824" height="1704">
+      </div>
+      <div class="lp__dots" aria-hidden="true">
+        <span class="is-active"></span><span></span><span></span>
+      </div>
+
+      <!-- No desktop o contato do Instagram fica abaixo dos mockups (no celular, junto do botão fixo) -->
+      <p class="help help--desktop">
+        Dúvidas ou problemas? Fale comigo
+        <a class="help__ig" href="https://www.instagram.com/odhcorrea/reels/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><defs><linearGradient id="ig-lp-desktop" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".55" stop-color="#d62976"/><stop offset=".8" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><g fill="none" stroke="url(#ig-lp-desktop)" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/></g><circle cx="17.4" cy="6.6" r="1.3" fill="url(#ig-lp-desktop)"/></svg>
+          @odhcorrea
+        </a>
+      </p>
+    </section>
+
+    <!-- Passo 1: nome -->
+    <section class="screen step" data-screen="nome" hidden>
+      <form class="step__form" id="form-nome" novalidate>
+        <!-- Sem botão de voltar aqui: para voltar à landing page, só pelo navegador -->
+        <div class="step__top">
+          <div class="progress" role="progressbar" aria-label="Progresso" aria-valuemin="0" aria-valuemax="2" aria-valuenow="1"><span style="width: 50%"></span></div>
+        </div>
+
+        <div class="step__body">
+          <span class="badge">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="3.5"/><path d="M6.5 18.5c1.3-2.2 3.2-3.3 5.5-3.3s4.2 1.1 5.5 3.3"/><circle cx="12" cy="12" r="10"/></svg>
+            1 DE 2
+          </span>
+          <h2 class="step__title">Qual o seu nome?</h2>
+
+          <label for="nome" class="label">Nome</label>
+          <input class="field" id="nome" name="nome" type="text" autocomplete="name" placeholder="Digite seu nome" maxlength="80" aria-describedby="nome-erro">
+          <p class="step__error" id="nome-erro" role="alert"></p>
+        </div>
+
+        <div class="cta">
+          <button type="submit" class="btn">Continuar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Passo 2: WhatsApp -->
+    <section class="screen step" data-screen="whatsapp" hidden>
+      <form class="step__form" id="form-whatsapp" novalidate>
+        <div class="step__top">
+          <button type="button" class="step__back" data-action="back" aria-label="Voltar">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="progress" role="progressbar" aria-label="Progresso" aria-valuemin="0" aria-valuemax="2" aria-valuenow="2"><span style="width: 100%"></span></div>
+        </div>
+
+        <div class="step__body">
+          <span class="badge">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.5-4.3a8.5 8.5 0 1 1 15.5-4.6z"/></svg>
+            2 DE 2
+          </span>
+          <h2 class="step__title">Qual é o seu WhatsApp<span data-first-name></span>?</h2>
+
+          <div class="founder">
+            <div class="founder__avatar">
+              <img src="assets/avatar-dhiego.jpg" alt="Foto do Dhiego" width="256" height="256">
+            </div>
+            <div class="founder__bubble">
+              <p class="founder__name">Dhiego <span>· Cofundador do Mova</span></p>
+              <p class="founder__text">E aí! <span class="emoji">👋</span> Meu nome é Dhiego, um dos fundadores do Mova. Deixe seu WhatsApp que eu te mando o link para testar o Mova, junto com um desconto exclusivo.</p>
+            </div>
+          </div>
+
+          <label for="whatsapp" class="label">WhatsApp</label>
+          <input class="field" id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" aria-describedby="whatsapp-erro">
+          <!-- Honeypot: invisível para pessoas, bots costumam preencher -->
+          <input class="hp" type="text" name="empresa" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="step__error" id="whatsapp-erro" role="alert"></p>
+        </div>
+
+        <div class="cta">
+          <button type="submit" class="btn">Enviar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Sucesso -->
+    <section class="screen step step--success" data-screen="sucesso" hidden>
+      <div class="step__body">
+        <div class="success-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        </div>
+        <h2 class="step__title" tabindex="-1">Tudo certo<span data-first-name></span>!</h2>
+        <p class="step__text">Recebemos seus dados. Em breve eu mesmo vou entrar em contato com você pelo WhatsApp com o link de acesso ao Mova.</p>
+        <p class="help help--success">
+          Dúvidas ou problemas? Fale comigo
+          <a class="help__ig" href="https://www.instagram.com/odhcorrea/reels/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><defs><linearGradient id="ig-sucesso" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".55" stop-color="#d62976"/><stop offset=".8" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><g fill="none" stroke="url(#ig-sucesso)" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/></g><circle cx="17.4" cy="6.6" r="1.3" fill="url(#ig-sucesso)"/></svg>
+            @odhcorrea
+          </a>
+        </p>
+      </div>
+      <img class="step__logo" src="assets/logo-mova.svg" alt="Mova" width="135" height="24">
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@29.5.5/dist/js/intlTelInput.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

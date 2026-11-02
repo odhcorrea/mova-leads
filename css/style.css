@@ -1,0 +1,862 @@
+/* Cores e medidas: troque aqui para ajustar a identidade visual */
+:root {
+  --verde: #a0fe1b;
+  --verde-escuro: #202e0b;
+  --fundo: #060606;
+  --superficie: #13160e;
+  --borda: #262b1f;
+  --trilho: #2a2a2a;
+  --texto: #ffffff;
+  --texto-suave: #9a9c96;
+  --placeholder: #666864;
+  --erro: #ff6b5e;
+  --raio: 14px;
+  --coluna: 480px;
+  --fonte: "Google Sans Flex", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: var(--fonte);
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Só opacidade: transform criaria um novo contexto e quebraria o CTA fixo */
+.screen {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: var(--coluna);
+  margin: 0 auto;
+  animation: entrar 0.4s ease both;
+}
+
+@keyframes entrar {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* CTA fixo no rodapé, com degradê preto por trás */
+.cta {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+  max-width: var(--coluna);
+  transform: translateX(-50%);
+  padding: 120px 24px calc(24px + var(--safe-bottom));
+  background: linear-gradient(to bottom, rgba(6, 6, 6, 0) 0%, rgba(6, 6, 6, 0.75) 45%, var(--fundo) 75%);
+  pointer-events: none;
+}
+
+.btn {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 60px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--verde);
+  color: var(--fundo);
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(160, 254, 27, 0.18);
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.06);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus-visible,
+.step__back:focus-visible {
+  outline: 3px solid rgba(160, 254, 27, 0.5);
+  outline-offset: 3px;
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* "Dúvidas ou problemas? Fale comigo" + botão do Instagram (landing page e sucesso) */
+.help {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 8px;
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--texto-suave);
+  pointer-events: auto;
+}
+
+.help__ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 12px 0 8px;
+  border: 1px solid var(--borda);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--texto);
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.help__ig:hover {
+  border-color: #3a4030;
+  background: #1a1e13;
+}
+
+.help__ig:focus-visible {
+  outline: 3px solid rgba(160, 254, 27, 0.5);
+  outline-offset: 2px;
+}
+
+/* O texto acima já tem margem embaixo */
+.help--success {
+  margin-top: 0;
+}
+
+/* Landing page: no celular o contato fica junto do botão fixo; no desktop, abaixo dos mockups */
+.help--desktop {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .help--mobile {
+    display: none;
+  }
+
+  .help--desktop {
+    display: flex;
+    margin-top: 32px;
+  }
+}
+
+/* Celulares estreitos: mantém texto e botão do Instagram numa linha só */
+@media (max-width: 380px) {
+  .help {
+    gap: 4px 6px;
+    font-size: 12px;
+  }
+
+  .help__ig {
+    padding: 0 10px 0 7px;
+  }
+}
+
+/* Landing page (celular): ocupa exatamente a tela, sem rolagem vertical */
+.lp {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  overflow: hidden;
+}
+
+.lp__header {
+  position: relative;
+  z-index: 2;
+  padding: 40px 24px 0;
+  text-align: center;
+}
+
+.lp__logo {
+  width: 128px;
+  margin: 0 auto 28px;
+}
+
+.lp__title {
+  margin: 0 auto;
+  font-size: clamp(22px, 6.4vw, 30px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Carrossel horizontal dos mockups. A largura do celular é calculada pela altura
+   disponível, para caber entre o título e o botão em qualquer tela. */
+.lp__phones {
+  --phone-w: min(64vw, calc((100dvh - 374px) * 0.4836), 300px);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 28px calc((100% - var(--phone-w)) / 2) 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.lp__phones::-webkit-scrollbar {
+  display: none;
+}
+
+.lp__phone {
+  flex: 0 0 var(--phone-w);
+  width: var(--phone-w);
+  scroll-snap-align: center;
+  user-select: none;
+  -webkit-user-drag: none;
+  animation: subir 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.lp__phone:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.lp__phone:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+@keyframes subir {
+  from { opacity: 0; translate: 0 48px; scale: 0.96; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
+}
+
+.lp__dots {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + 60px + 44px + 18px + var(--safe-bottom)); /* rodapé + botão + linha do Instagram + folga */
+  z-index: 11;
+  display: flex;
+  gap: 6px;
+  transform: translateX(-50%);
+}
+
+.lp__dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 99px;
+  background: #3a3a3a;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+.lp__dots .is-active {
+  width: 18px;
+  background: var(--verde);
+}
+
+/* Celulares baixinhos (ex.: iPhone SE): compacta o topo para sobrar espaço ao mockup */
+@media (max-width: 899px) and (max-height: 700px) {
+  .lp__header {
+    padding-top: 28px;
+  }
+
+  .lp__logo {
+    width: 112px;
+    margin-bottom: 18px;
+  }
+
+  .lp__title {
+    font-size: 21px;
+  }
+
+  .lp__phones {
+    --phone-w: min(64vw, calc((100dvh - 329px) * 0.4836));
+    padding-top: 20px;
+  }
+}
+
+/* Landing page (desktop): botão abaixo do título e os três celulares lado a lado */
+@media (min-width: 900px) {
+  /* Conteúdo centralizado na vertical; se não couber, a página rola normalmente */
+  .lp {
+    justify-content: center;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
+    padding: 48px 0;
+  }
+
+  .lp__header {
+    padding-top: 0;
+  }
+
+  .lp__logo {
+    width: 140px;
+    margin-bottom: 36px;
+  }
+
+  .lp__title {
+    max-width: 18em;
+    font-size: clamp(36px, 3.4vw, 48px);
+    line-height: 1.12;
+  }
+
+  .lp__title br {
+    display: none;
+  }
+
+  .cta.lp__cta {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    max-width: none;
+    padding: 32px 0 0;
+    background: none;
+    transform: none;
+  }
+
+  .lp__cta .btn {
+    width: auto;
+    min-width: 280px;
+  }
+
+  .lp__phones {
+    --phone-w: clamp(200px, min(21vw, calc((100dvh - 524px) * 0.4836)), 300px);
+    flex: none;
+    justify-content: center;
+    gap: clamp(24px, 3vw, 48px);
+    padding: 48px 24px 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .lp__phone:nth-child(1) { animation-delay: 0.15s; }
+  .lp__phone:nth-child(2) { animation-delay: 0.3s; }
+  .lp__phone:nth-child(3) { animation-delay: 0.45s; }
+
+  .lp__dots {
+    display: none;
+  }
+}
+
+/* Notebooks de tela baixa: compacta tudo para continuar cabendo e centralizado */
+@media (min-width: 900px) and (max-height: 820px) {
+  .lp {
+    padding: 24px 0;
+  }
+
+  .lp__logo {
+    margin-bottom: 24px;
+  }
+
+  .lp__title {
+    font-size: 36px;
+  }
+
+  .cta.lp__cta {
+    padding-top: 24px;
+  }
+
+  .lp__phones {
+    --phone-w: clamp(170px, min(21vw, calc((100dvh - 444px) * 0.4836)), 300px);
+    padding-top: 32px;
+  }
+
+  .help--desktop {
+    margin-top: 20px;
+  }
+}
+
+/* Passos do funil */
+.step__form {
+  min-height: inherit;
+}
+
+.step__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px 0;
+}
+
+.step__back {
+  margin-left: -12px;
+}
+
+.step__back {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+.step__back:hover {
+  color: var(--texto);
+}
+
+.progress {
+  flex: 1;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--trilho);
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--verde);
+  transition: width 0.4s ease;
+}
+
+.step__body {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 24px 160px;
+}
+
+.badge {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: var(--raio);
+  background: var(--verde-escuro);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--texto);
+}
+
+.badge svg {
+  color: var(--verde);
+}
+
+.step__title {
+  margin: 24px 0 32px;
+  font-size: clamp(28px, 8vw, 36px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.step__title:focus {
+  outline: none;
+}
+
+.step__text {
+  margin: 0 0 36px;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--texto-suave);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Recado do fundador (passo do WhatsApp): avatar + balão de conversa */
+.founder {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 8px 0 28px;
+}
+
+.founder__avatar {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  animation: subir 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+
+.founder__avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px var(--fundo), 0 0 0 3px var(--verde);
+}
+
+/* Bolinha de "online" */
+.founder__avatar::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--fundo);
+  border-radius: 50%;
+  background: var(--verde);
+}
+
+.founder__bubble {
+  position: relative;
+  padding: 12px 16px 14px;
+  border: 1px solid var(--borda);
+  border-radius: 18px 18px 18px 4px;
+  background: var(--superficie);
+  transform-origin: bottom left;
+  animation: balao 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.2) 0.35s both;
+}
+
+@keyframes balao {
+  from { opacity: 0; transform: scale(0.85) translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.founder__name {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--verde);
+}
+
+.founder__name span {
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+.founder__text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--texto);
+}
+
+/* O espaço depois do emoji fica estreito demais nessa fonte */
+.emoji {
+  margin-right: 0.2em;
+}
+
+.label {
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.field {
+  width: 100%;
+  min-height: 60px;
+  padding: 0 20px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+  font-size: 18px; /* >= 16px evita o zoom automático do iOS */
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field::placeholder {
+  color: var(--placeholder);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--verde);
+  box-shadow: 0 0 0 4px rgba(160, 254, 27, 0.12);
+}
+
+.field[aria-invalid="true"] {
+  border-color: var(--erro);
+}
+
+.step__error {
+  min-height: 22px;
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--erro);
+}
+
+/* Passos no desktop: coluna mais larga, conteúdo centralizado na vertical
+   e o botão logo abaixo do campo (no celular ele fica fixo no rodapé) */
+@media (min-width: 900px) {
+  .step {
+    max-width: 600px;
+  }
+
+  .step__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 96px 0;
+  }
+
+  .step__top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-top: 32px;
+  }
+
+  .step__body {
+    padding: 0 24px;
+  }
+
+  .step__title {
+    font-size: 40px;
+  }
+
+  /* z-index: auto porque, como item de flex, o z-index do CTA fixo continuaria valendo
+     e o botão cobriria a lista de países */
+  .step .cta {
+    position: static;
+    z-index: auto;
+    width: auto;
+    max-width: none;
+    padding: 12px 24px 0;
+    background: none;
+    transform: none;
+  }
+}
+
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+/* Campo de WhatsApp com seletor de país (intl-tel-input).
+   As variáveis ficam no :root porque, no celular, a lista de países abre fora do campo. */
+:root {
+  --iti-border-color: var(--borda);
+  --iti-country-selector-bg: #101309;
+  --iti-hover-color: rgba(160, 254, 27, 0.08);
+  --iti-icon-color: var(--texto-suave);
+}
+
+/* z-index: a lista de países (no desktop) precisa passar por cima do botão Enviar */
+.iti {
+  display: block;
+  width: 100%;
+  z-index: 3;
+}
+
+/* A área da bandeira acompanha o arredondamento do campo (descontando a borda de 1px) */
+.iti__selected-country,
+.iti__selected-country-primary {
+  border-radius: calc(var(--raio) - 1px) 0 0 calc(var(--raio) - 1px);
+}
+
+.iti__selected-dial-code {
+  color: var(--texto-suave);
+}
+
+.iti__country-selector {
+  color: var(--texto);
+  font-size: 16px;
+}
+
+/* Lista suspensa (desktop): mesmo arredondamento do campo, com a busca e os itens recuados */
+.iti--inline-country-selector .iti__country-selector {
+  padding: 6px;
+  border-radius: var(--raio);
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.iti--inline-country-selector .iti__country-list {
+  margin-top: 6px;
+}
+
+.iti--inline-country-selector .iti__country {
+  border-radius: 10px;
+}
+
+.iti__search-input {
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: var(--superficie);
+  color: var(--texto);
+}
+
+.iti__search-input:focus {
+  outline: none;
+  border-color: var(--verde);
+}
+
+/* Sem a linha que a biblioteca coloca entre a busca e a lista */
+.iti__search-input-wrapper {
+  border-bottom: 0;
+}
+
+.iti__dial-code {
+  color: var(--texto-suave);
+}
+
+/* Celular: a lista de países abre como bottom sheet (modo FULLSCREEN da biblioteca,
+   que fica fora da página, no <body>, por cima de tudo) */
+.iti--fullscreen-popup.iti--detached-country-selector {
+  justify-content: flex-end;
+  padding: 48px 0 var(--iti-virtual-keyboard-height, 0px);
+  background: rgba(0, 0, 0, 0.6);
+  animation: entrar 0.2s ease both;
+}
+
+.iti--fullscreen-popup .iti__country-selector {
+  width: 100%;
+  max-height: min(78dvh, 100%);
+  padding: 60px 12px calc(12px + var(--safe-bottom));
+  border: 1px solid var(--borda);
+  border-bottom: 0;
+  border-radius: 24px 24px 0 0;
+  background: #0d0f0a;
+  animation: sheet-subir 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes sheet-subir {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+
+/* Alça e título do sheet */
+.iti--fullscreen-popup .iti__country-selector::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 40px;
+  height: 4px;
+  border-radius: 99px;
+  background: #3a3a3a;
+  transform: translateX(-50%);
+}
+
+.iti--fullscreen-popup .iti__country-selector::after {
+  content: "Escolha o país";
+  position: absolute;
+  top: 22px;
+  left: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--texto);
+}
+
+.iti--fullscreen-popup .iti__close-button {
+  top: 16px;
+  right: 12px;
+  bottom: auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--texto-suave);
+}
+
+.iti--fullscreen-popup .iti__search-input {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-radius: 12px;
+}
+
+.iti--fullscreen-popup .iti__country-list {
+  margin-top: 8px;
+}
+
+.iti--fullscreen-popup .iti__country {
+  padding: 14px 12px;
+  border-radius: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iti--fullscreen-popup.iti--detached-country-selector,
+  .iti--fullscreen-popup .iti__country-selector {
+    animation: none;
+  }
+}
+
+/* Sucesso */
+.step--success {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.step--success .step__body {
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.success-icon {
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--verde-escuro);
+  color: var(--verde);
+  box-shadow: 0 0 48px rgba(160, 254, 27, 0.2);
+}
+
+.step--success .step__title {
+  margin: 32px 0 12px;
+}
+
+.step__logo {
+  position: absolute;
+  left: 50%;
+  bottom: calc(32px + var(--safe-bottom));
+  width: 96px;
+  transform: translateX(-50%);
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen,
+  .lp__phone,
+  .founder__avatar,
+  .founder__bubble {
+    animation: none;
+  }
+}

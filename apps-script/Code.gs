@@ -4,7 +4,7 @@
  */
 
 var SHEET_NAME = "Leads";
-var HEADERS = ["Data", "Nome", "WhatsApp", "Abrir conversa"];
+var HEADERS = ["Data", "Nome", "WhatsApp", "Abrir conversa", "Funil"];
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -29,11 +29,16 @@ function doPost(e) {
     var formatado = String(data.whatsappFormatado || "").trim();
     if (formatado.replace(/\D/g, "") !== digits) formatado = whatsapp;
 
+    // De qual funil veio (funil, alex, laura, natalia...). Versões antigas do site não mandam: "funil".
+    var funil = String(data.funil || "funil");
+    if (!/^[a-z0-9-]{1,30}$/.test(funil)) funil = "funil";
+
     getSheet().appendRow([
       new Date(),
       safe(nome),
       safe(formatado),
-      "https://wa.me/" + digits
+      "https://wa.me/" + digits,
+      funil
     ]);
 
     return json({ ok: true });
@@ -58,6 +63,12 @@ function getSheet() {
     sheet.appendRow(HEADERS);
     sheet.setFrozenRows(1);
     sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold");
+  }
+
+  // Planilhas criadas antes da coluna "Funil" ganham o cabeçalho que falta
+  var header = sheet.getRange(1, 1, 1, HEADERS.length);
+  if (header.getValues()[0].join("|") !== HEADERS.join("|")) {
+    header.setValues([HEADERS]).setFontWeight("bold");
   }
 
   return sheet;

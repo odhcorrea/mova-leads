@@ -10,6 +10,58 @@
   var inputNome = document.getElementById("nome");
   var inputWhatsapp = document.getElementById("whatsapp");
 
+  // Qual funil é este: pelo subdomínio (laura.movaclub.app → "laura") ou por ?funil=laura.
+  // Qualquer outro endereço cai no funil padrão ("funil").
+  var funis = window.MOVA_FUNIS || {};
+  var funilKey = (function () {
+    var key = new URLSearchParams(location.search).get("funil") || location.hostname.split(".")[0];
+    return funis[key] ? key : "funil";
+  })();
+
+  applyFunil(funis[funilKey]);
+
+  // Troca avatar, nome, textos e Instagram pelos do funil (o HTML já vem com o do Dhiego)
+  function applyFunil(f) {
+    if (!f) return;
+
+    var avatar = document.querySelector("[data-founder-avatar]");
+    if (f.avatar) {
+      avatar.innerHTML = "";
+      var img = document.createElement("img");
+      img.src = f.avatar;
+      img.alt = "Foto de " + f.nome;
+      img.width = 256;
+      img.height = 256;
+      avatar.appendChild(img);
+    } else {
+      // Sem foto ainda: iniciais no lugar
+      avatar.innerHTML = '<span class="founder__initials"></span>';
+      avatar.firstChild.textContent = f.nome.charAt(0);
+    }
+
+    var name = document.querySelector("[data-founder-name]");
+    name.textContent = f.nome + " ";
+    if (f.legenda) {
+      var legenda = document.createElement("span");
+      legenda.textContent = "· " + f.legenda;
+      name.appendChild(legenda);
+    }
+
+    // innerHTML só para o texto do balão, que vem do nosso js/funis.js (permite o span do emoji)
+    document.querySelector("[data-founder-text]").innerHTML = f.balao;
+    document.querySelector("[data-sucesso]").textContent = f.sucesso;
+
+    document.querySelectorAll("[data-ajuda]").forEach(function (el) {
+      el.textContent = f.ajuda;
+    });
+    document.querySelectorAll("[data-ig-handle]").forEach(function (el) {
+      el.textContent = "@" + f.instagram;
+    });
+    document.querySelectorAll(".help__ig").forEach(function (el) {
+      el.href = f.instagramLink;
+    });
+  }
+
   // Navegação entre telas. Cada tela vira uma entrada no histórico,
   // assim o botão "voltar" do celular volta um passo em vez de sair da página.
   function show(name, push) {
@@ -201,6 +253,7 @@
         nome: lead.nome,
         whatsapp: lead.whatsapp,
         whatsappFormatado: iti.getNumber("INTERNATIONAL"),
+        funil: funilKey,
         empresa: formWhatsapp.empresa.value
       });
     });

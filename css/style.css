@@ -220,10 +220,19 @@ button {
   text-wrap: balance;
 }
 
+.lp__text {
+  max-width: 34em;
+  margin: 12px auto 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.7);
+  text-wrap: balance;
+}
+
 /* Carrossel horizontal dos mockups. A largura do celular é calculada pela altura
    disponível, para caber entre o título e o botão em qualquer tela. */
 .lp__phones {
-  --phone-w: min(64vw, calc((100dvh - 374px) * 0.4836), 300px);
+  --phone-w: min(64vw, calc((100dvh - 444px) * 0.4836), 300px);
   flex: 1;
   min-height: 0;
   display: flex;
@@ -300,8 +309,13 @@ button {
     font-size: 21px;
   }
 
+  .lp__text {
+    margin-top: 8px;
+    font-size: 14px;
+  }
+
   .lp__phones {
-    --phone-w: min(64vw, calc((100dvh - 329px) * 0.4836));
+    --phone-w: min(64vw, calc((100dvh - 395px) * 0.4836));
     padding-top: 20px;
   }
 }
@@ -333,8 +347,20 @@ button {
     line-height: 1.12;
   }
 
-  .lp__title br {
-    display: none;
+  /* O bloco tem a largura do título; o parágrafo ocupa essa largura sem alargá-la
+     (width: 0 + min-width: 100% faz ele não contar na largura do bloco) */
+  .lp__intro {
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .lp__text {
+    width: 0;
+    min-width: 100%;
+    max-width: none;
+    margin-top: 16px;
+    font-size: 18px;
+    text-wrap: pretty; /* linhas cheias até a largura do título (sem balancear) */
   }
 
   .cta.lp__cta {
@@ -380,11 +406,16 @@ button {
   }
 
   .lp__logo {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .lp__title {
     font-size: 36px;
+  }
+
+  .lp__text {
+    margin-top: 10px;
+    font-size: 16px;
   }
 
   .cta.lp__cta {
@@ -393,7 +424,7 @@ button {
 
   .lp__phones {
     --phone-w: clamp(170px, min(21vw, calc((100dvh - 444px) * 0.4836)), 300px);
-    padding-top: 32px;
+    padding-top: 24px;
   }
 
   .help--desktop {
